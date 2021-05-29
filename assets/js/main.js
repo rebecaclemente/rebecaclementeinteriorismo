@@ -2,6 +2,7 @@ $(function() {
     
     "use strict";
     
+    
     //===== Prealoder
     
     $(window).on('load', function(event) {
@@ -9,27 +10,10 @@ $(function() {
     });
     
     
-    //===== Sticky
+    //===== Mobile Menu 
     
-    $(window).on('scroll', function(event) {    
-        var scroll = $(window).scrollTop();
-        if (scroll < 10) {
-            $(".navbar-area").removeClass("sticky");
-        } else{
-            $(".navbar-area").addClass("sticky");
-        }
-    });
-    
-     //===== close navbar-collapse when a  clicked
-    
-    $(".navbar-nav a").on('click', function () {
-        $(".navbar-collapse").removeClass("show");
-    });
-    
-    //===== Mobile Menu
-    
-    $(".navbar-toggler").on('click', function(){
-        $(this).toggleClass("active");
+    $(".navbar-toggler").on('click', function() {
+        $(this).toggleClass('active');
     });
     
     $(".navbar-nav a").on('click', function() {
@@ -37,242 +21,169 @@ $(function() {
     });
     
     
-    //===== Section Menu Active
-
-    var scrollLink = $('.page-scroll');
-        // Active link switching
-        $(window).scroll(function() {
-        var scrollbarLocation = $(this).scrollTop();
-
-        scrollLink.each(function() {
-
-          var sectionOffset = $(this.hash).offset().top - 73;
-
-          if ( sectionOffset <= scrollbarLocation ) {
-            $(this).parent().addClass('active');
-            $(this).parent().siblings().removeClass('active');
-          }
-        });
-    });    
+    //===== close navbar-collapse when a  clicked
     
-    
-    //===== Sidebar
-
-    $('[href="#side-menu-right"], .overlay-right').on('click', function (event) {
-        $('.sidebar-right, .overlay-right').addClass('open');
-    });
-
-    $('[href="#close"], .overlay-right').on('click', function (event) {
-        $('.sidebar-right, .overlay-right').removeClass('open');
+    $(".navbar-nav a").on('click', function () {
+        $(".navbar-collapse").removeClass("show");
     });
     
     
+    //===== Sticky
     
-    //===== Isotope Project 3
-
-    $('.container').imagesLoaded(function () {
-        var $grid = $('.grid').isotope({
-            // options
-            transitionDuration: '1s'
-        });
-
-        // filter items on button click
-        $('.portfolio-menu ul').on('click', 'li', function () {
-            var filterValue = $(this).attr('data-filter');
-            $grid.isotope({
-                filter: filterValue
-            });
-        });
-
-        //for menu active class
-        $('.portfolio-menu ul li').on('click', function (event) {
-            $(this).siblings('.active').removeClass('active');
-            $(this).addClass('active');
-            event.preventDefault();
-        });
-    });
-    
-    
-    //  Magnific Popup
-
-    $('.image-popup').magnificPopup({
-        type: 'image',
-        gallery: {
-            enabled: true
+    $(window).on('scroll',function(event) {    
+        var scroll = $(window).scrollTop();
+        if (scroll < 10) {
+            $(".header-area").removeClass("sticky");
+        }else{
+            $(".header-area").addClass("sticky");
         }
     });
     
-    //====== Magnific Popup
+    
+    //===== One Page Nav
+    
+    $('#nav').onePageNav({
+        filter: ':not(.external)',
+        currentClass: 'active',
+    });
+    
+    
+    //=====  Slick
+    
+    function mainSlider() {
+        var BasicSlider = $('.slider-active');
+        BasicSlider.on('init', function(e, slick) {
+            var $firstAnimatingElements = $('.single-slider:first-child').find('[data-animation]');
+            doAnimations($firstAnimatingElements);
+        });
+        BasicSlider.on('beforeChange', function(e, slick, currentSlide, nextSlide) {
+            var $animatingElements = $('.single-slider[data-slick-index="' + nextSlide + '"]').find('[data-animation]');
+            doAnimations($animatingElements);
+        });
+        BasicSlider.slick({
+            autoplay: true,
+            autoplaySpeed: 5000,
+            dots: true,
+            fade: true,
+			arrows: false,
+            responsive: [
+                { breakpoint: 767, settings: { dots: false, arrows: false } }
+            ]
+        });
 
-    $('.video-popup').magnificPopup({
+        function doAnimations(elements) {
+            var animationEndEvents = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+            elements.each(function() {
+                var $this = $(this);
+                var $animationDelay = $this.data('delay');
+                var $animationType = 'animated ' + $this.data('animation');
+                $this.css({
+                    'animation-delay': $animationDelay,
+                    '-webkit-animation-delay': $animationDelay
+                });
+                $this.addClass($animationType).one(animationEndEvents, function() {
+                    $this.removeClass($animationType);
+                });
+            });
+        }
+    }
+    mainSlider();
+    
+    
+    
+    //=====  Slick product items active
+    
+    $('.product-items-active').slick({
+        dots: false,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        arrows:true,
+        prevArrow:'<span class="prev"><i class="lni-chevron-left"></i></span>',
+        nextArrow: '<span class="next"><i class="lni-chevron-right"></i></span>',
+        responsive: [
+        {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: 3,
+          }
+        },
+        {
+          breakpoint: 992,
+          settings: {
+            slidesToShow: 2,
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            arrows: false,
+          }
+        },
+        {
+          breakpoint: 576,
+          settings: {
+            slidesToShow: 1,
+            arrows: false,
+          }
+        }
+        ]
+    });
+    
+    
+    //=====  Slick Showcase active
+    
+    $('.showcase-active').slick({
+        dots: false,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        arrows:true,
+        prevArrow:'<span class="prev"><i class="lni-arrow-left"></i></span>',
+        nextArrow: '<span class="next"><i class="lni-arrow-right"></i></span>',
+        adaptiveHeight: true,
+        responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            arrows: false,
+          }
+        },
+        {
+          breakpoint: 576,
+          settings: {
+            arrows: false,
+          }
+        }
+        ]
+    });
+    
+
+    //=====  Slick testimonial active
+    
+    $('.testimonial-active').slick({
+        dots: false,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        infinite: true,
+        speed: 600,
+        slidesToShow: 1,
+        arrows:false,
+        adaptiveHeight: true,
+    });
+    
+    
+    //====== Magnific Popup
+    
+    $('.Video-popup').magnificPopup({
         type: 'iframe'
         // other options
     });
     
     
-    //===== Slick
-
-    $('.testimonial-active').slick({
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        speed: 800,
-        arrows: false,
-        dots: true,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    arrows: false,
-                }
-            }
-        ]
-    });
-    
-    
-    //===== Slick
-
-    $('.testimonial-active-2').slick({
-        infinite: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        speed: 800,
-        arrows: false,
-        dots: true,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 1,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    arrows: false,
-                }
-            }
-        ]
-    });
-    
-    
-    //===== Slick
-
-    $('.client-active').slick({
-        infinite: true,
-        slidesToShow: 6,
-        slidesToScroll: 1,
-        speed: 800,
-        arrows: false,
-        dots: false,
-        autoplay: true,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 6,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 5,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 3,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 2,
-                    arrows: false,
-                }
-            }
-        ]
-    });
-    
-    
-    //===== Slick
-
-    $('.testimonial-active-4').slick({
-        infinite: true,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        speed: 800,
-        arrows: false,
-        dots: true,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 2,
-                }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1,
-                }
-            },
-            {
-                breakpoint: 576,
-                settings: {
-                    slidesToShow: 1,
-                    arrows: false,
-                }
-            }
-        ]
-    });
-
-        
     //===== Back to top
     
     // Show or hide the sticky footer button
@@ -284,7 +195,6 @@ $(function() {
         }
     });
     
-    
     //Animate the scroll to yop
     $('.back-to-top').on('click', function(event) {
         event.preventDefault();
@@ -295,24 +205,46 @@ $(function() {
     });
     
     
-    //=====  AOS
+    //====== Slick product image
     
-    new WOW().init();
-    
-    
-    //===== 
-    
-    
-    
-    
-    
-    
-    
+    $('.product-image').slick({
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true,
+        prevArrow: '<span class="prev"><i class="lni-chevron-left"></i></span>',
+        nextArrow: '<span class="next"><i class="lni-chevron-right"></i></i></span>',
+        dots: false,
+    });
     
     
+    //====== Nice Number
     
+    $('input[type="number"]').niceNumber({
+        
+    });
+
     
+    //=====  Rating selection
     
+    var $star_rating = $('.star-rating .fa');
+
+    var SetRatingStar = function() {
+      return $star_rating.each(function() {
+        if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+          return $(this).removeClass('fa-star-o').addClass('fa-star');
+        } else {
+          return $(this).removeClass('fa-star').addClass('fa-star-o');
+        }
+      });
+    };
+
+    $star_rating.on('click', function() {
+      $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+      return SetRatingStar();
+    });
+
+    SetRatingStar();
     
     
     
