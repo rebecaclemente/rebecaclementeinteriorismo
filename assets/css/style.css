@@ -2237,3 +2237,7 @@ p.form-message.error {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.card {
+    border: 0;
+}
