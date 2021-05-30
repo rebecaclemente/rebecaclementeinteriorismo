@@ -1128,9 +1128,7 @@ p {
 }
 
 .single-services {
-    border: 1px solid #ddd;
     padding: 25px 15px;
-    background: #fff;
 }
 
 .single-services .services-icon i {
