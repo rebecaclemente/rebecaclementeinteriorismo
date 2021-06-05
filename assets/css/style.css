@@ -372,6 +372,8 @@ p {
 
 .header-area .navbar .navbar-brand {
     padding-bottom: 10px;
+    color: #777;
+    font-size: large;
 }
 
 .header-area .navbar .navbar-toggler .bar-icon {
