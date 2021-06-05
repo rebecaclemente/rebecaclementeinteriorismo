@@ -2249,3 +2249,8 @@ p.form-message.error {
 .card {
     border: 0;
 }
+
+.card-text {
+    padding-top: 10px;
+    text-align: justify;
+}
