@@ -1,6 +1,4 @@
-# rebecaclementeinteriorismo
+# Rebeca Clemente Interiorismo
 
-https://rebecaclemente.github.io/rebecaclementeinteriorismo/ 
+https://www.rebecainteriorismo.com/
 
-* item 1
-* item 2
